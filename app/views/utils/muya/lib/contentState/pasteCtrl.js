@@ -151,6 +151,15 @@ const pasteCtrl = ContentState => {
           image.src = base64
           imageContainer.appendChild(image)
         }
+        if (imageWrapper) {
+          this.muya.options.imageUploadAction && this.muya.options.imageUploadAction({ base64 }, ({name, url}) => {
+            const imageInfo = getImageInfo(imageWrapper)
+            this.replaceImage(imageInfo, {
+              alt: name,
+              src: url
+            })
+          })
+        }
       }
       reader.readAsDataURL(file)
 
@@ -163,10 +172,11 @@ const pasteCtrl = ContentState => {
       const imageWrapper = this.muya.container.querySelector(`span[data-id=${id}]`)
 
       if (imageWrapper) {
-        const imageInfo = getImageInfo(imageWrapper)
-        this.replaceImage(imageInfo, {
-          src: nSrc
-        })
+        // const imageInfo = getImageInfo(imageWrapper)
+        // this.replaceImage(imageInfo, {
+        //   src: nSrc
+        // })
+        // imageWrapper.classList.add('ag-image-loading')
       }
       return file
     }
